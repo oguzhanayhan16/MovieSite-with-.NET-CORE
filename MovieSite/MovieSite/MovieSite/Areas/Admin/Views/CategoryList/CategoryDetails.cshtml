@@ -1,0 +1,38 @@
+﻿@model MovieSite.Areas.Admin.Models.CategoryViewModel
+@{
+    ViewData["Title"] = "CategoryDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div style="padding:50px;color:black;font-size:20px">
+    @using (Html.BeginForm("CategoryDetails", "CategoryList", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(x => x.genreID)
+
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Adı:</label>
+            @Html.TextBoxFor(x => x.genre.GenreName, new { @type = "text", style = "width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color: black; padding: 5px; border:none;" })
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-success">Kaydet</button>
+        </div>
+    }
+    @using (Html.BeginForm("DeleteCategory", "CategoryList", FormMethod.Post))
+    {
+        @Html.Hidden("genreID", Model.genreID)
+        <div style="margin-top:10px">
+            <button type="submit" class="btn btn-danger">Sil</button>
+        </div>
+    }
+
+    <div style="display: flex; gap: 30px; margin-top: 20px;">
+        <div>
+            <button type="submit" class="btn btn-info"><a href="~/Admin/CategoryList/CategoryMovie?id=@Model.genreID">Bu kategoride olan filmler </a></button>
+        </div> 
+        <div>
+            <button type="submit" class="btn btn-secondary"><a href="~/Admin/CategoryList/CategoryDontMovie?id=@Model.genreID" style="color: white; text-decoration: none;">Bu kategoride olmayan filmler </a></button>
+        </div>
+      
+    </div>
+</div>

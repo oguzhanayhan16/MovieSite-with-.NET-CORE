@@ -1,0 +1,26 @@
+﻿@model MovieListModel
+@{
+    ViewData["Title"] = "HelpPage";
+    Layout = "~/Views/Shared/LogPage.cshtml";
+}
+<div style="padding: 100px 650px; color: White">
+    <h1>Şikayetinizi Bildirin</h1>
+    @using (Html.BeginForm("HelpPage", "UserPage", FormMethod.Post))
+    {
+
+        <input type="hidden" name="userID" value="@Model.userID" />
+        @Html.Label("Konu Başlığı")
+        @Html.TextBoxFor(x => x.help.MessageTittle, new { @class = "form-control", style = "border-radius: 10px; background-color: #333; color: white;" })
+        <br />
+        @Html.Label("Mesajınız")
+        @Html.TextAreaFor(x => x.help.MessageContent, 15, 3, new { @class = "form-control", style = "background-color: #333; color: white;" })
+        <br />
+
+        <div style="display: inline-block; margin-right: 10px;">
+            <button class="btn btn-info">Mesajı Gönder</button>
+        </div>
+        <div style="display: inline-block;">
+            <a href="~/UserPage/GetMessage?userID=@Model.userID" class="btn btn-secondary" style="text-decoration: none; color: white;">Gelen Mesajlar</a>
+        </div>
+    }
+</div>

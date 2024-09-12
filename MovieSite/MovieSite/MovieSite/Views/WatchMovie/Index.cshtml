@@ -1,0 +1,328 @@
+﻿@model MovieSite.Models.MovieViewModel
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,900;1,100;1,300;1,400;1,500&family=Sen:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/filmSitesi/filmsitesi/site.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/1f221b598e.js" crossorigin="anonymous"></script>
+
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: 5% 90% 5%;
+        }
+
+        .dontWatch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+           ckground-color: #333;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .watch {
+            margin-right: 5px;
+        }
+
+        .comment-box {
+            padding: 10px;
+            width: 50%;
+        }
+
+        .comment-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .foto {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            align-items: center;
+        }
+
+        .search {
+            flex: 1;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .send {
+            border: none;
+            background-color: #db0001;
+            color: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .mesaj li {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            margin: 5px 0;
+        }
+
+            .mesaj li:last-child {
+                border-bottom: none;
+            }
+
+
+
+        .input-group img {
+            margin-right: 10px;
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center;
+        }
+
+            .flex-container .search {
+                flex: 1;
+                margin-right: 10px;
+            }
+
+            .flex-container .btn {
+                flex-shrink: 0;
+            }
+
+        .custom-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            .custom-btn:hover {
+                background-color: darkred;
+            }
+
+    </style>
+</head>
+<body style="background-color: #363636;">
+    <div style="text-align:center;margin-top:10px">
+        <a href="~/Movie/LogMovie" style="font-size: 35px;text-decoration: none;color: #db0001;">NetChina</a>
+        <p style="color:white">@ViewBag.v</p>
+
+
+        @{
+            bool watched = false;
+            bool wishlisted = false;
+            foreach (var item in Model.collec)
+            {
+                if (item.UserID == ViewBag.v2 && item.MovieID == ViewBag.v1)
+                {
+                    watched = Convert.ToBoolean(item.Watched);
+                    wishlisted = Convert.ToBoolean(item.Wishlist);
+                    break;
+                }
+            }
+        }
+
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+            @if (watched)
+            {
+                <div class="dontWatch" style="background:#228B22;" id="eye" onclick="handleClick('Watched'); changeColorWatch('eye')">
+                    <i class="fa-solid fa-eye-slash watch"></i> İzlendi
+                </div>
+            }
+            else
+            {
+                <div class="dontWatch" id="eye" style="background:black" onclick="handleClick('Watched'); changeColorWatch('eye')">
+                    <i class="fa-solid fa-eye-slash watch"></i> izlenmedi
+                </div>
+            }
+
+            @if (wishlisted)
+            {
+                <div class="dontWatch" style="background:#FF0000" style="background:black" id="bookmark" onclick="handleClick('Wishlist'); changeColor('bookmark')">
+                    <i class="fa-solid fa-bookmark watch"></i> Kaydedildi
+                </div>
+            }
+            else
+            {
+                <div class="dontWatch" style="background:black" id="bookmark" onclick="handleClick('Wishlist'); changeColor('bookmark')">
+                    <i class="fa-solid fa-bookmark watch"></i> Kaydet
+                </div>
+            }
+        </div>
+    </div>
+
+    </div>
+
+    <div class="grid">
+        <div>
+        </div>
+        <div>
+            <video class="movie" controls>
+                <source src="@Model.MovieUrl" type="video/mp4">
+                Tarayıcınız video etiketini desteklemiyor.
+            </video>
+        </div>
+        <div>
+        </div>
+
+    </div>
+    <div class="grid">
+        <div>
+        </div>
+        <div style="margin-left: 15px;">
+
+            <div class="comment-box">
+                <div class="comment-input">
+                    <div class="input-group">
+                        <h4 style="color:white">Bir Yorum Yapın</h4>
+                        @using (Html.BeginForm("Index", "WatchMovie", FormMethod.Post))
+                        {
+                            <input type="hidden" name="MovieID" value="@ViewBag.v1" />
+                            <input type="hidden" name="UserID" value="@ViewBag.v2" />
+                            <img class="foto" src="~/filmSitesi/filmsitesi/image/icons8-name-50.png" alt="User Icon">
+
+                            <div class="form-group flex-container">
+                                @Html.TextBoxFor(x => x.com.CommentContent, new { @type = "text", @class = "search", style = "width:800px", placeholder = "Düşüncelerini paylaş." })
+                                @Html.ValidationMessageFor(x => x.com.CommentContent, "", new { @class = "text-danger" })
+                              
+                                <button type="submit" class="btn btn-primary custom-btn">Gönder</button>
+                            </div>
+                            <div class="form-check">
+                                @Html.CheckBoxFor(x => x.Spoiler, new { @class = "form-check-input", id = "spoilerCheck" })
+                                <label class="form-check-label" for="spoilerCheck" style="color:white">Spoiler içeriyor mu?</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                @await Component.InvokeAsync("CommentListByMovie", new { id = ViewBag.v1 })
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+
+    <script src="~/filmSitesi/filmsitesi/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/filmSitesi/filmsitesi/site.js"></script>
+    <script>
+        var counter = 0;
+        var counter1 = 0;
+        console.log(window.innerWidth);
+
+        function tiklaa() {
+            counter++;
+
+            if (counter % 2 == 1) {
+                var a = document.getElementById("eye");
+                a.style.background = "#228B22";
+                a.classList.add("fa-solid");
+                a.classList.add("fa-eye");
+                a.classList.add("watch");
+                a.style.fontSize = "20px"
+
+                a.innerHTML = "İzlendi";
+            }
+            else {
+                var a = document.getElementById("eye");
+                a.style.background = "black";
+                a.classList.add("fa-solid");
+                a.classList.add("fa-eye-slash");
+                a.classList.add("watch");
+                a.innerHTML = "izlenmedi";
+            }
+        }
+        function tiklaa1() {
+
+            counter1++;
+            console.log(counter1);
+            if (counter1 % 2 == 1) {
+                var a = document.getElementById("bookmark");
+                a.style.background = "#FF0000";
+                a.classList.add("fa-solid");
+                a.classList.add("fa-bookmark");
+                a.classList.add("watch");
+                a.style.fontSize = "20px"
+
+                a.innerHTML = "Kaydedili";
+            }
+            else {
+                var a = document.getElementById("bookmark");
+                a.style.background = "black";
+                a.classList.add("fa-solid");
+                a.classList.add("fa-bookmark");
+                a.classList.add("watch");
+                a.innerHTML = "Kaydet";
+            }
+        }
+
+        function updateStatus(action) {
+            var movieID = @ViewBag.v1;
+            var userID = @ViewBag.v2;
+            console.log('movieID:', movieID);
+            console.log('userID:', userID);
+
+            $.ajax({
+                url: '/UserPage/UpdateStatus',
+                type: 'POST',
+                data: {
+                    movieID: movieID,
+                    userID: userID,
+                    action: action
+                },
+                success: function (response) {
+                    console.log('Response:', response);
+                    alert(response.message);
+
+
+                    $("#divToUpdate").html(response.partialView);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+        function changeColor(elementId) {
+            var element = document.getElementById(elementId);
+            if (element.style.background === "black") {
+                element.style.background = "#FF0000";
+            } else {
+                element.style.background = "black";
+            }
+        }
+        function changeColorWatch(elementId) {
+            var element = document.getElementById(elementId);
+            if (element.style.background === "black") {
+                element.style.background = "#228B22";
+            } else {
+                element.style.background = "black";
+            }
+        }
+
+        function handleClick(action) {
+            updateStatus(action);
+
+        }
+    </script>
+</body>
+</html>

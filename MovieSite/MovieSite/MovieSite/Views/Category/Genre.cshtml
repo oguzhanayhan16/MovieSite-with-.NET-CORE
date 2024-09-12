@@ -1,0 +1,41 @@
+﻿@model MovieListModel
+@{
+    ViewData["Title"] = "Genre";
+    Layout = "~/Views/Shared/LogPage.cshtml";
+}
+<style>
+    .category-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .category-item {
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #1C1C1C;
+        border: 1px solid #1C1C1C;
+        border-radius: 5px;
+    }
+
+        .category-item a {
+            display: block;
+            text-decoration: none;
+            color: #C0C0C0;
+            font-weight: bold;
+            padding: 10px;
+        }
+</style>
+<div style="padding:150px 650px">
+    <ul class="category-list">
+        @foreach (var item in Model.genres)
+        {
+            <li class="category-item">
+                <a href="~/Category/GenrePage?id=@item.GenreID&&userID=@Model.userID">@item.GenreName</a>
+            </li>
+        }
+        <li class="category-item">
+            <a href="~/Category/AllMovie?userID=@Model.userID">Tüm Filmler</a>
+        </li>
+    </ul>
+</div>

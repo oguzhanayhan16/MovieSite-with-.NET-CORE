@@ -1,0 +1,50 @@
+﻿@model EntityLayer.Concrete.Movie
+@{
+    ViewData["Title"] = "MovieAdd";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div style="padding:50px;color:black;font-size:20px">
+    @using (Html.BeginForm("MovieAdd", "AdminMovie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+  
+
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Adı:</label>
+            <input type="text" name="Name" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Tanıtımı:</label>
+            <input type="text" name="Description" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Yayın Tarihi:</label>
+            <input type="text" name="ReleaseDate" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.ReleaseDate, "", new { @class = "text-danger" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Url:</label>
+            <input type="text" name="Url" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.Url, "", new { @class = "text-danger" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Süresi:</label>
+            <input type="text" name="RunningTime" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.RunningTime, "", new { @class = "text-danger" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Resmi:</label>
+            <input type="file" name="Image" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+          
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-success">Film Ekle</button>
+        </div>
+    }
+
+  
+</div>
+

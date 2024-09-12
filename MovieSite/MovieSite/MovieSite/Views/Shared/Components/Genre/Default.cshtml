@@ -1,0 +1,31 @@
+﻿@model MovieListModel
+
+
+<ul class="dropdown-menu">
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @foreach (var item in Model.genres)
+        {
+            <li><a href="/Category/GenrePage?id=@item.GenreID&&userID=@Model.userID">@item.GenreName</a></li>
+
+        }
+        <li><a href="/Category/Genre?userID=@Model.userID">Daha fazla</a>a</li>
+    }
+    else
+    {
+        @foreach (var item in Model.genres)
+        {
+            <li><a href="#" onclick="uyeOl()">@item.GenreName</a></li>
+
+        }
+        <li><a href="#" onclick="uyeOl()">Daha fazla</a>a</li>
+    }
+  
+</ul>
+
+<script>
+    function uyeOl() {
+        alert("Lütfen üye girişi yapınız.");
+    }
+</script>

@@ -1,0 +1,28 @@
+﻿<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+        <h1>NetChina</h1>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+        <li>
+            <span class="m-r-sm text-muted welcome-message">NetChina'ya hoş geldiniz.</span>
+        </li>
+
+
+        @await Component.InvokeAsync("Message")
+
+
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-controller="Login" asp-action="Logout" asp-area="" method="post">
+                    <button type="submit">
+                        <i class="fa fa-sign-out"></i> Çıkış Yap
+                    </button>
+                </form>
+            }
+          
+        </li>
+    </ul>
+
+</nav>

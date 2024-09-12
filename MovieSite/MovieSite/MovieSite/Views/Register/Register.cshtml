@@ -1,0 +1,57 @@
+﻿@model EntityLayer.Concrete.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/filmSitesi/filmsitesi/site.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <nav class="navbar border-bottom border-2" style="background: none;">
+            <div class="container">
+                <a href="~/Movie/Index" class="navbar-brand text-danger" style="font-size: 35px;text-decoration: none;color:  #db0001;">NetChina</a>
+            </div>
+        </nav>
+        <div class="header-content-pass">
+            <h1 style="max-width: 10000px;">Kayıt İşlemlerine Devam Edin</h1>
+            @using (Html.BeginForm("Register", "Register", FormMethod.Post))
+            {
+                <form style="padding: 15px 30px 15px 0;display: flex; flex-direction: column; align-items: center;">
+                    <div class="email-signup">
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px; width: 800px;", placeholder = "Lütfen İsminizi giriniz." })
+
+
+                        @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="email-signup">
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px;", @placeholder = "Lütfen Soy isminizi giriniz." })
+                        @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="email-signup">
+                        @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px;", @placeholder = "Lütfen Şifrenizi giriniz." })
+                        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="email-signup">
+
+                        @Html.TextBoxFor(x => x.ConfrimPass, new { @type = "password", @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px;", @placeholder = "Lütfen Şifrenizi tekrar giriniz." })
+                        @Html.ValidationMessageFor(x => x.ConfrimPass, "", new { @class = "text-danger" })
+                    </div>
+                    
+                    <div class="email-signup">
+                        <button type="submit" style="background-color: #db0001;width: 100%;">Başlayın</button>
+                </div>
+
+                </form>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@model MovieSite.Areas.Admin.Models.CategoryViewModel
+@{
+    ViewData["Title"] = "CategoryDontMovie";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .movie-item {
+        border: 2px solid black;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+@using (Html.BeginForm("CategoryDontMovie", "CategoryList", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <input type="hidden" id="selectedMovieId" name="selectedMovieId" value="" />
+    <input type="hidden" id="genreId" name="genreId" value="@Model.genreID" />
+    <div class="movie-grid">
+        @foreach (var item in Model.movies)
+        {
+            <div class="movie-item">
+                <h1>
+                    <a href="javascript:void(0);" class="movie-link" data-movie-id="@item.MovieID">@item.Name</a>
+                </h1>
+            </div>
+        }
+    </div>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var movieLinks = document.querySelectorAll('.movie-link');
+
+        movieLinks.forEach(function (link) {
+            link.addEventListener('click', function () {
+                var movieId = this.getAttribute('data-movie-id');
+                document.getElementById('selectedMovieId').value = movieId;
+                this.closest('form').submit();
+            });
+        });
+    });
+</script>

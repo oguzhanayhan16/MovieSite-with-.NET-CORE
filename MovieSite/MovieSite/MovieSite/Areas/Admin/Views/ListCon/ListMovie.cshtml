@@ -1,0 +1,31 @@
+﻿@model MovieSite.Areas.Admin.Models.ListViewModel
+@{
+    ViewData["Title"] = "ListMovie";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .movie-item {
+        border: 2px solid black;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+<div class="movie-grid">
+    @foreach (var item in Model.movies)
+    {
+        <div class="movie-item">
+            <h1><a href="~/Admin/AdminMovie/MovieViewPage?movieID=@item.MovieID">@item.Name</a></h1>
+        </div>
+    }
+</div>
+
+
+

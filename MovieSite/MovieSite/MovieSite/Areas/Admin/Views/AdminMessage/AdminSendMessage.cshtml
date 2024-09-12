@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewData["Title"] = "AdminSendMessage";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    .mail-text {
+        position: relative;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .summernote {
+        margin-bottom: 20px;
+    }
+
+    textarea.form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        resize: vertical;
+    }
+
+</style>
+
+
+
+
+
+<div class="col-lg-12 animated fadeInRight">
+    <div class="mail-box-header">
+        <div class="float-right tooltip-demo">
+            <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i> Draft</a>
+            <a href="mailbox.html" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+        </div>
+        <h2>
+            Mail Gönder
+        </h2>
+    </div>
+    <div class="mail-box">
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        <div class="mail-body">
+            <form method="post" action="/Admin/AdminMessage/AdminSendMessage">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="email" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Subject:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="subject" class="form-control">
+                    </div>
+                </div>
+                <div class="mail-text h-200">
+                    <textarea class="form-control" rows="10" name="textarea" placeholder="Your message here..."></textarea>
+                </div>
+                <div class="form-group row text-right tooltip-demo">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Send">
+                            <i class="fa fa-reply"></i> Send
+                        </button>
+                        <button type="reset" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Discard">
+                            <i class="fa fa-times"></i> Discard
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+</div>
+        </div>
+        </div>
+<div class="footer">
+    <div class="float-right">
+        10GB of <strong>250GB</strong> Free.
+    </div>
+    <div>
+        <strong>Copyright</strong> Example Company &copy; 2014-2018
+    </div>
+</div>
+
+      
+
+

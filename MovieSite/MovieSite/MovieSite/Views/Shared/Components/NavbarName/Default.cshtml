@@ -1,0 +1,31 @@
+﻿@model MovieListModel
+
+<button class=" btn dropdown-toggle color " type="button" data-toggle="dropdown">
+    <img class="avatar" src="@ViewBag.v3" style="background-color: white;border-radius: 50%; width: 30px;justify-content: center; align-items: center;height:30px;">
+    <span class="caret" style="justify-content: center;align-items: center;">@ViewBag.v1  @ViewBag.v2 </span>
+</button>
+<ul class="dropdown-menu">
+    <li><a href="/UserPage/ProfilPage?userID=@Model.userID">Profil Ayarları</a></li>
+    <li><a href="/UserPage/WatchedPage?userID=@Model.userID">İzlenilen Filmler</a></li>
+    <li><a href="/UserPage/WishlistPage?userID=@Model.userID">Kaydedilen Filmler</a></li>
+    <li><a href="/UserPage/HelpPage?userID=@Model.userID">Destek</a></li>
+    <li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-controller="Login" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-danger">Çıkış Yap</button>
+            </form>
+        }
+    </li>
+</ul>
+
+<style>
+    .avatar {
+        background-color: white;
+        border-radius: 50%;
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        height: 50%;
+    }
+</style>

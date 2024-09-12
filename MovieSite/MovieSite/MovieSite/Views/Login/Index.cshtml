@@ -1,0 +1,42 @@
+﻿@model EntityLayer.Concrete.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/filmSitesi/filmsitesi/site.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <nav class="navbar border-bottom border-2" style="background: none;">
+            <div class="container">
+                <a href="~/Movie/Index" class="navbar-brand text-danger" style="font-size: 35px;text-decoration: none;color:  #db0001;">NetChina</a>
+            </div>
+        </nav>
+        <div class="header-content-pass">
+            <h1 style="max-width: 10000px;">Email adresinizi ve şifrenizi giriniz</h1>
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+            {
+                <div class="email-signup">
+                    @Html.TextBoxFor(x => x.Email, new { @type = "email", @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px; width: 800px;", placeholder = "Lütfen Email adresinizi giriniz." })
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="email-signup">
+                    @Html.TextBoxFor(x => x.Password, new { @type = "password", @class = "form-control email-signup", style = "border: 0; outline: 0; margin: 20px 0; font-size: 16px; width: 800px;", placeholder = "Lütfen şifrenizi  giriniz." })
+                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="email-signup">
+                    <button style="background-color: #db0001;width: 100%;" type="submit"> Giriş yap</button>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

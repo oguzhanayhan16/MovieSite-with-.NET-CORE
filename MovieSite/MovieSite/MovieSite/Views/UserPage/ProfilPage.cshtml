@@ -1,0 +1,36 @@
+﻿@model MovieListModel
+@{
+    ViewData["Title"] = "ProfilPage";
+    Layout = "~/Views/Shared/LogPage.cshtml";
+}
+
+<div style="padding:100px 650px;color:White">
+    @using (Html.BeginForm("ProfilPage", "UserPage", FormMethod.Post))
+    {
+        <input type="hidden" name="userID" value="@Model.userID" />
+        <div style="margin-bottom: 30px;">
+            <label style="display: inline-block; width: 200px;">Adınız:</label>
+            @Html.TextBoxFor(x => x.user.FirstName, new { @type = "text", style = "width: 300px; border-radius: 10px; background-color: #333; color: white; padding: 5px;" })
+        </div>
+        <div style="margin-bottom: 30px;">
+            <label style="display: inline-block; width: 200px;">Soyadınız:</label>
+            @Html.TextBoxFor(x => x.user.LastName, new { @type = "text", style = "width: 300px; border-radius: 10px; background-color: #333; color: white; padding: 5px;" })
+        </div>
+        <div style="margin-bottom: 30px;">
+            <label style="display: inline-block; width: 200px;">Kullanıcı Adınız:</label>
+            @Html.TextBoxFor(x => x.user.Username, new { @type = "text", style = "width: 300px; border-radius: 10px; background-color: #333; color: white; padding: 5px;" })
+        </div>
+        <div style="margin-bottom: 30px;">
+            <label style="display: inline-block; width: 200px;">Email Adresiniz:</label>
+            @Html.TextBoxFor(x => x.user.Email, new { @type = "text", style = "width: 300px; border-radius: 10px; background-color: #333; color: white; padding: 5px;",@readonly="" })
+        </div>
+     @*  Avatar kısmı  <div style="margin-bottom: 30px;">
+            <label style="display: inline-block; width: 200px;">Adınız:</label>
+            @Html.TextBoxFor(x => x.user.Email, new { @type = "text", style = "width: 300px; border-radius: 10px; background-color: #333; color: white; padding: 5px;" })
+        </div> *@
+        <button class="btn btn-danger">Kaydet</button>
+        
+    }
+   
+     
+</div>

@@ -1,0 +1,281 @@
+﻿@model PaymentViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,900;1,100;1,300;1,400;1,500&family=Sen:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/filmSitesi/filmsitesi/site.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/1f221b598e.js" crossorigin="anonymous"></script>
+
+</head>
+
+<style>
+
+
+    .footer-page {
+        padding: 50px;
+        font-size: 25px;
+        color: white;
+    }
+
+    footer {
+    }
+
+    .buton {
+        background-color: red; /* Buton rengini kırmızı yap */
+        color: white;
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+<body>
+    <!---NAVBAR-->
+    <nav class=" border-bottom border-2" style="background-color:white;width: 100%;z-index: 2;">
+        <div class="container">
+            <a href="/Movie/LogMovie" class="navbar-brand text-danger" style="font-size: 35px;">NetChina</a>
+        </div>
+    </nav>
+    <!---FORM-->
+    <div class="container" style="margin-top: 100px;">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-12 col-lg-6">
+                <h1>Ödemenizi ayarlayın: Kredi Kartı/Banka Kartı</h1>
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                <form id="myform" method="post" action="/Payment/PAY" onsubmit="return validateForm()">
+                    <div class="icon">
+                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                    </div>
+                    <ul class="payment disabled">
+                        <li><input type="text" placeholder="Ad" name="ad" id="name" class="text" oninput="validateName()"></li>
+                        <p id="demo" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                        <li><input type="text" placeholder="Soyad" name="soyad" id="lastName" class="text" oninput="validateLastName()"></li>
+                        <p id="demo2" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                        <li><input type="text" placeholder="Kart Numarası" name="kartNo" id="cardNo" class="text" oninput="formatCardNumber()"></li>
+                        <p id="demo3" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                        <li><input type="text" placeholder="Son kullanma tarihi (AA/YY)" name="tarih" id="Date" class="text" oninput="formatDateInput()"></li>
+                        <p id="demo4" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                        <li><input type="text" placeholder="Lütfen bir güvenlik kodu giriniz (CVV)" name="güvenlikKod" id="cod" class="text" oninput="securityNumber()"></li>
+                        <p id="demo5" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                    </ul>
+                    <ul class="money">
+                        <li class="pay">Ayda @ViewBag.id TL</li>
+                        <ul class="change">
+                            <li class="text-muted">Temel Plan</li>
+                            <li class="ms-auto"><a href="/Payment/Index">Değiştir</a></li>
+                        </ul>
+                    </ul>
+                    <div style="width: 75%;" class="text-muted">
+                        <p style="font-size: 14px;">
+                            Ödemeleriniz uluslararası olarak işlenecektir. İlave banka ücretleri uygulanabilir.
+                        </p>
+                        <p style="font-size: 14px;">
+                            Aşağıdaki onay kutusunu işaretleyerek Kullanım Koşullarımızı, Gizlilik Bildirimimizi ve 18 yaşından
+                            büyük olduğunuzu kabul edersiniz. Netflix, üyeliğinizi otomatik olarak devam ettirecek ve siz iptal edene
+                            kadar üyelik ücretini (şu anda aylık 63,99 TL) ödeme yönteminizden tahsil edecektir.
+                            Gelecekte ücret alınmasını istemiyorsanız üyeliğinizi istediğiniz zaman iptal edebilirsiniz.
+                        </p>
+                        <div style="display: flex;">
+                            <input type="checkbox" id="checkbox" name="checkbox" value="Boat" class="box" onclick="tikla1()">
+                            <label for="checkbox" class="text-muted " style="font-size:20px ; "> Kabul Ediyorum</label><br><br>
+                        </div>
+                        <p id="demo6" style="margin-bottom: 20px;font-size: 13px;color: red;"></p>
+                    </div>
+                    @if (Model.CanProceedWithPayment)
+                    {
+                        <button type="submit" class="btn text-center buton">
+                            <span style="text-decoration: none; color: white;">Üyeliğinizi Başlatın</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn text-center buton" disabled>
+                            <span style="text-decoration: none; color: white;">Üyeliğinizi Başlatın</span>
+                        </button>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+    <!---FOOTER-->
+    <footer>
+        <div class="w3layouts-agile-copyrightbottom footer-page">
+            <p class="">
+                © 2024 Asp.Net Core. Tüm Hakları Saklıdır. | Design by <a href="http://w3layouts.com/">W3layouts</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        var x = 0;
+
+        function tikla1() {
+            x++;
+
+
+        }
+        function validateForm() {
+            var isValid = true; // Doğrulama sonucunu tutan değişken
+
+            if (document.getElementById("name").value.trim() === "") {
+                document.getElementById("name").style.border = "1px solid red";
+                document.getElementById("demo").innerHTML = "Lütfen adınızı giriniz.";
+                isValid = false;
+            } else {
+                document.getElementById("name").style.border = "1px solid black";
+                document.getElementById("demo").innerHTML = "";
+            }
+
+            if (document.getElementById("lastName").value.trim() === "") {
+                document.getElementById("lastName").style.border = "1px solid red";
+                document.getElementById("demo2").innerHTML = "Lütfen soyadınızı giriniz.";
+                isValid = false;
+            } else {
+                document.getElementById("lastName").style.border = "1px solid black";
+                document.getElementById("demo2").innerHTML = "";
+            }
+
+            if (document.getElementById("cardNo").value.length != 19) {
+                document.getElementById("cardNo").style.border = "1px solid red";
+                document.getElementById("demo3").innerHTML = "Kart numarasını yanlış girdiniz.";
+                isValid = false;
+            } else {
+                document.getElementById("cardNo").style.border = "1px solid black";
+                document.getElementById("demo3").innerHTML = "";
+            }
+
+            if (document.getElementById("Date").value.length != 5) {
+                document.getElementById("Date").style.border = "1px solid red";
+                document.getElementById("demo4").innerHTML = "Tarihi yanlış girdiniz.";
+                isValid = false;
+            } else {
+                document.getElementById("Date").style.border = "1px solid black";
+                document.getElementById("demo4").innerHTML = "";
+            }
+
+            if (document.getElementById("cod").value.length != 3 || isNaN(document.getElementById("cod").value)) {
+                document.getElementById("cod").style.border = "1px solid red";
+                document.getElementById("demo5").innerHTML = "Güvenlik kodunu yanlış girdiniz.";
+                isValid = false;
+            } else {
+                document.getElementById("cod").style.border = "1px solid black";
+                document.getElementById("demo5").innerHTML = "";
+            }
+
+            if (!document.getElementById("checkbox").checked) {
+                document.getElementById("demo6").innerHTML = "Kullanım koşullarını kabul etmeniz gerekmektedir.";
+                isValid = false;
+            } else {
+                document.getElementById("demo6").innerHTML = "";
+            }
+
+            if (isValid) {
+                alert("Ödeme işleminiz başarıyla gerçekleşti.");
+            }
+            return isValid; // Formun gönderilip gönderilmeyeceğini belirler
+        }
+        function formatDateInput() {
+            var input = document.getElementById("Date");
+            var value = input.value;
+
+            // Sadece rakam ve / karakterlerine izin ver
+            var newValue = value.replace(/[^\d\/]/g, '');
+
+            // İlk 2 karakteri (ay) için sınırla
+            newValue = newValue.slice(0, 5);
+
+            // Eğer ilk 2 karakter girildiyse ve 3. karakter / değilse, / karakterini ekle
+            if (newValue.length === 2 && newValue.charAt(1) !== '/') {
+                newValue += '/';
+            }
+
+            // Son 2 karakteri (yıl) için sınırla
+            newValue = newValue.slice(0, 5);
+
+            input.value = newValue;
+        }
+        function formatCardNumber() {
+            var input = document.getElementById("cardNo");
+            var value = input.value;
+
+            // Sadece rakam kabul et
+            var newValue = value.replace(/\D/g, '');
+            newValue = newValue.slice(0, 16);
+            // Boşluk eklemek için her 4 karakterden sonra kontrol et
+            var formattedValue = "";
+            for (var i = 0; i < newValue.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += " ";
+                }
+                formattedValue += newValue.charAt(i);
+            }
+
+            input.value = formattedValue;
+        }
+        function securityNumber() {
+            var input = document.getElementById("cod");
+            var value = input.value;
+
+            // Sadece rakam kabul et
+            var newValue = value.replace(/\D/g, '');
+            newValue = newValue.slice(0, 3);
+            // Boşluk eklemek için her 4 karakterden sonra kontrol et
+            var formattedValue = "";
+            for (var i = 0; i < newValue.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += " ";
+                }
+                formattedValue += newValue.charAt(i);
+            }
+
+            input.value = formattedValue;
+        }
+        function validateName() {
+            var input = document.getElementById("name");
+            var value = input.value;
+
+            // Sadece harf kabul et
+            var newValue = value.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ]/g, '');
+
+            input.value = newValue;
+        }
+        function validateLastName() {
+            var input = document.getElementById("lastName");
+            var value = input.value;
+
+            // Sadece harf kabul et
+            var newValue = value.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ]/g, '');
+
+            input.value = newValue;
+        }
+    </script>
+    <script src="~/filmSitesi/filmsitesi/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/filmSitesi/filmsitesi/site.js"></script>
+</body>
+</html>

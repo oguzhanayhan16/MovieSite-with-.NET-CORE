@@ -1,0 +1,96 @@
+﻿@model MovieSite.Areas.Admin.Models.AdminMovieViewModel
+@{
+    ViewData["Title"] = "MovieViewPage";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div style="padding:50px;color:black;font-size:20px">
+    @using (Html.BeginForm("MovieViewPage", "AdminMovie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(x => x.movieID)
+
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Adı:</label>
+            @Html.TextBoxFor(x => x.movie.Name, new { @type = "text", style = "width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color: black; padding: 5px; border:none;" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Tanıtımı:</label>
+            @Html.TextAreaFor(x => x.movie.Description, new { style = "width:50%;height:200px; border-radius: 10px; background-color: #C0C0C0; color: black; padding: 5px; border: none;" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Yayın Tarihi:</label>
+            @Html.TextBoxFor(x => x.movie.ReleaseDate, new { @type = "text", style = "width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color: black; padding: 5px; border:none;" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Süresi:</label>
+            @Html.TextBoxFor(x => x.movie.RunningTime, new { @type = "text", style = "width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" })
+        </div>
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Resmi:</label>
+            <input type="file" name="Image" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+        </div>
+
+
+
+        @if (!string.IsNullOrEmpty(Model.movie.Image))
+        {
+            <div style="margin-bottom: 50px;">
+                <label style="display: inline-block; width: 200px;">Mevcut Resim:</label>
+                <img src="@Model.movie.Image" alt="Film Resmi" style="max-width:200px; max-height:200px;" />
+            </div>
+        }
+
+
+
+        <div style="display: flex; gap: 10px;margin-top:10px;">
+            <button type="submit" class="btn btn-success">Kaydet</button>
+        </div>
+    }
+    <h2>Filmin Ait Olduğu Kategoriler</h2>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        @foreach (var item in Model.genres)
+        {
+            @using (Html.BeginForm("DeleteCategories", "AdminMovie", FormMethod.Post))
+            {
+                @Html.Hidden("movieID", Model.movieID)
+                @Html.Hidden("GenreID", item.GenreID)
+                <div style="border:1px solid black;padding:5px;border-radius:5px; display: flex; align-items: center;">
+                    <button type="submit" class="btn">@item.GenreName  <span style="color:red; margin-left: 10px;">&#x2716;</span></button>
+                    <!-- Kırmızı çarpı simgesi -->
+                </div>
+            }
+        }
+    </div>
+
+    <h2>Filmin Ait Olduğu Listeler</h2>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        @foreach (var item in Model.lists)
+        {
+            @using (Html.BeginForm("DeleteList", "AdminMovie", FormMethod.Post))
+            {
+                @Html.Hidden("movieID", Model.movieID)
+                @Html.Hidden("ListID", item.ListID)
+                <div style="border:1px solid black;padding:5px;border-radius:5px; display: flex; align-items: center;">
+                    <button type="submit" class="btn">@item.ListName  <span style="color:red; margin-left: 10px;">&#x2716;</span></button>
+                    <!-- Kırmızı çarpı simgesi -->
+                </div>
+            }
+        }
+    </div>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        @using (Html.BeginForm("DeleteMovies", "AdminMovie", FormMethod.Post))
+        {
+            @Html.Hidden("movieID", Model.movieID)
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="submit" class="btn btn-danger">Sil</button>
+            </div>
+        }
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn btn-secondary">
+                <a href="~/Admin/AdminComment/CommentPage?movieID=@Model.movieID" style="color: white; text-decoration: none;">Yorumları Görüntüle</a>
+            </button>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,85 @@
+﻿@using EntityLayer.Concrete
+@model List<Subscription>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/PaymentLayout.cshtml";
+}
+
+<style>
+
+
+    .footer-page {
+        padding: 50px;
+        font-size: 25px;
+        color: white;
+    }
+
+    footer {
+    }
+</style>
+
+
+<div class="container" style="margin-top: 15px;">
+    <ul style="list-style-type:none ; margin-right:50px;">
+        <li><h1>Kendinize Uygun Bir Tarife Seçiniz</h1></li>
+        <li style="font-size: 20px;"><i class="fa-solid fa-check text-danger"></i>   Canınız neyi isterse izleyin. Reklamsız. </li>
+        <li style="font-size: 20px;"><i class="fa-solid fa-check text-danger"></i>   Sadece sizin için önerilen içerikler. </li>
+        <li style="font-size: 20px;"><i class="fa-solid fa-check text-danger"></i>   Planınızı istediğiniz zaman değiştirebilir ya da iptal edebilirsiniz. </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-12 ">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    @foreach(var item in Model)
+                    {
+                        <th style="cursor: pointer;">
+                            <a href="/Payment/Payment?subscriptionId=@item.SubscriptionID&userID=@ViewBag.id" style="text-decoration: none; color: red;">@item.SubName</a>
+
+                        </th>
+
+                    }
+                </tr>
+                <tr>
+                    <td>Aylık ücret</td>
+                    @foreach(var item in Model)
+                    {
+                        <td>@item.Money TL</td>
+
+                    }
+                </tr>
+                <tr>
+                    <td>Video kalitesi</td>
+                    <td>iyi</td>
+                    <td>Daha iyi</td>
+                    <td>Çok iyi</td>
+                </tr>
+                <tr>
+                    <td>Çözünürlük</td>
+                    <td>720p</td>
+                    <td>1080p</td>
+                    <td>4K+HDR</td>
+                </tr>
+                <tr>
+                    <td>Televizyon, bilgisayar, cep telefonu ve tabletinizde seyredin</td>
+                    <td><i class="fa-solid fa-check text-danger"></i> </td>
+                    <td><i class="fa-solid fa-check text-danger"></i> </td>
+                    <td><i class="fa-solid fa-check text-danger"></i> </td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <div class="w3layouts-agile-copyrightbottom footer-page">
+        <p class="">
+            © 2024 Asp.Net Core. Tüm Hakları Saklıdır. | Design by <a href="http://w3layouts.com/">W3layouts</a>
+        </p>
+    </div>
+</footer>
+

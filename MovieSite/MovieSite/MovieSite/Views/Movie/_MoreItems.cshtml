@@ -1,0 +1,120 @@
+﻿@model MovieListModel
+
+@foreach (var item in Model.ListC)
+{
+    <!--UP SİDE-->
+    <div class="up-side deger-@item.ListID" id="up-side-0" style="background:linear-gradient(to bottom,rgba(0,0,0,0),#151515), url('/filmSitesi/filmsitesi/image/wallpaperbetter.com_1364x768.jpg');">
+        <p class="up-side-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore voluptatem distinctio eveniet, odio, omnis officia velit adipisci odit nulla modi corporis repellat suscipit consequuntur aperiam assumenda, ratione asperiores neque dolorum.</p>
+    </div>
+    @foreach (var itemm in Model.Movies)
+    {
+        <div class="up-side value-@itemm.MovieID" values="@itemm.MovieID" style="background:linear-gradient(to bottom,rgba(0,0,0,0),#151515), url('@itemm.Image');display: none;padding-top:80px">
+            <h1>@itemm.Name</h1>
+            <p class="up-side-desc">@itemm.Description</p>
+        </div>
+    }
+
+    <!--MİDDLE SİDE-->
+    <div class="movie-list-container">
+        <h1 class="movie-list-title">@item.ListName</h1>
+        <div class="movie-list-wrapper">
+            <div class="movie-list">
+                @foreach (var deger in Model.ListConnect)
+                {
+                    if (deger.ListID == item.ListID)
+                    {
+                        @foreach (var itemmm in Model.Movies)
+                        {
+                            if (deger.MovieID == itemmm.MovieID)
+                            {
+                                if (Model.userPaid == false)
+                                {
+                                    <div class="movie-list-item " data-list="@item.ListID" data-isim="@deger.ListID" values="@itemmm.MovieID">
+                                        <a href="#" onclick="uyeOl()">
+                                            <img class="movie-list-item-img" src="@itemmm.Image">
+                                            <p class="movie-list-item-title">@itemmm.Name</p>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="movie-list-item " data-list="@item.ListID" data-isim="@deger.ListID" values="@itemmm.MovieID">
+                                        <a href="/WatchMovie/Index?UserID=@Model.userID&MovieID=@deger.MovieID">
+                                            <img class="movie-list-item-img" src="@itemmm.Image">
+                                            <p class="movie-list-item-title">@itemmm.Name</p>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                }
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+            <i class="fas fa-chevron-left arrow1"></i>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $(".movie-list-item").on({
+            mouseenter: function () {
+                var movieID = $(this).attr("values");
+                var ListID = $(this).data("list");
+                var degerID = $(this).data("isim");
+                if (degerID == ListID) {
+                    $(".up-side.value-" + movieID).fadeIn(100).css("display", "block");
+                    $(".up-side.deger-" + ListID).fadeOut(100).css("display", "none");
+                }
+            },
+            mouseleave: function () {
+                var movieID = $(this).attr("values");
+                var ListID = $(this).data("list");
+                $(".up-side:not(#up-side-0)").fadeOut(100).css("display", "none");
+                $(".up-side.deger-" + ListID).fadeIn(100).css("display", "block");
+            }
+        });
+    });
+
+    // Değişkenleri farklı isimler ile tanımlıyoruz
+    const rightArrows = document.querySelectorAll(".arrow");
+    const movieLists = document.querySelectorAll(".movie-list");
+    let clickCount = 0;
+
+    rightArrows.forEach((arrow, i) => {
+        const imageCount = movieLists[i].querySelectorAll("img").length;
+
+        arrow.addEventListener("click", () => {
+            clickCount++;
+            window.onresize = function () {
+                movieLists[i].style.transform = `translateX(0)`;
+                clickCount = 0;
+            }
+            const ratio = Math.floor(window.innerWidth / 280);
+            if (imageCount - (6 + clickCount) + (6 - ratio) >= 0) {
+                const currentTransform = getComputedStyle(movieLists[i]).transform;
+                const currentTranslateX = parseInt(currentTransform.split(",")[4]);
+                movieLists[i].style.transform = `translateX(${currentTranslateX - 300}px)`;
+            } else {
+                movieLists[i].style.transform = `translateX(0)`;
+                clickCount = 0;
+            }
+        });
+    });
+
+    const leftArrows = document.querySelectorAll(".arrow1");
+
+    leftArrows.forEach((arrow, i) => {
+        const imageCount = movieLists[i].querySelectorAll("img").length;
+
+        arrow.addEventListener("click", () => {
+            const ratio = Math.floor(window.innerWidth / 280);
+            if (clickCount > 0) {
+                clickCount--;
+                const currentTransform = getComputedStyle(movieLists[i]).transform;
+                const currentTranslateX = parseInt(currentTransform.split(",")[4]);
+                movieLists[i].style.transform = `translateX(${currentTranslateX + 300}px)`;
+            }
+        });
+    });
+</script>

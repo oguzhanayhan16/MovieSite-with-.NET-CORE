@@ -1,0 +1,46 @@
+﻿@model EntityLayer.Concrete.User
+@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="Stylesheet" href="~/filmSitesi/filmsitesi/site.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <nav class="navbar border-bottom border-2" style="background: none;">
+            <div class="container">
+                <a href="~/Movie/Index" class="navbar-brand text-danger" style="font-size: 35px;text-decoration: none;color:  #db0001;">NetChina</a>
+            </div>
+        </nav>
+    </div>
+    <div class="header-content">
+        <h1>Sınırsız film, dizi ve çok daha fazlası.</h1>
+        <h3 style="color: white;">İstediğiniz yerde izleyin. İstediğiniz zaman iptal edin.</h3>
+        <p style="color: white;">İzlemeye hazır mısınız? Üyelik oluşturmak veya üyeliğinize erişmek için e‑posta adresinizi girin.</p>
+        <form class="email-signup" method="post" action="@Url.Action("Index", "Register")">
+
+
+
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Lütfen mail adresinizi giriniz." })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+
+
+            <button type="submit">Başlayın</button>
+
+
+
+
+        </form>
+    </div>
+</body>
+</html>

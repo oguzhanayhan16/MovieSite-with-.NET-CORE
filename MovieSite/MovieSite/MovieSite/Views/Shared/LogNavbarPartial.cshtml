@@ -1,0 +1,100 @@
+﻿@model MovieListModel
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<nav class="navbar navbar-expand-md navbar-dark" style="position: fixed;">
+    <div class="container">
+        <a href="~/Movie/LogMovie" class="navbar-brand text-danger fs-4">NetChina</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="collapsibleNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <div class="dropdown" style="margin-right:5px;">
+                        <button class=" btn dropdown-toggle color" type="button" data-toggle="dropdown" style="margin-top: 15px;">
+                            Kategoriler
+                            <span class="caret"></span>
+                        </button>
+                        @await Component.InvokeAsync("Genre")
+                    </div>
+                </li>
+
+                    <li class="nav-item" style="margin-top: 10px;">
+                        <input id="searchbar" class="bg-dark text-light" type="text" placeholder="Film Ara...">
+                    </li>
+                  
+
+                <li class="nav-item" style="margin-top: 10px;">
+                    <div class="dropdown">
+                        @await Component.InvokeAsync("NavbarName")
+                       
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+</nav>
+
+<nav class="sidebar">
+    <a href="~/Movie/LogMovie"><i class="left-menu-icon fa fa-home"></i></a>
+    <a href="~/UserPage/WatchedPage?userID=@Model.userID"><i class="left-menu-icon fas fa-eye"></i></a>
+    <a href="/UserPage/WishlistPage?userID=@Model.userID"><i class="left-menu-icon fas fa-bookmark"></i></a>
+    <a href="~/Payment/Index?userID=@Model.userID"><i class="left-menu-icon fas fa-shopping-cart"></i></a>
+    @if (Model.roleID == 4)
+    {
+        <a href="~/Admin/Client/Index"><i class="fa-solid fa-user"></i></a>
+
+    }
+   
+</nav>
+</nav>
+<script>
+    document.getElementById('searchbar').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') { 
+            const query = this.value; 
+            window.location.href = '/Category/AllMovie?query=' + encodeURIComponent(query) + '&userID=' + @Model.userID;
+        }
+    });
+
+    $(document).ready(function () {
+        $('#searchbar').on('input', function () {
+            var query = $(this).val();
+            var userID = '@Model.userID';
+            if (query.length > 0) {
+                $.ajax({
+                    url: '/Category/SearchMovies', 
+                    type: 'GET',
+                    data: { query: query },
+                    success: function (data) {
+                        updateMovieList(data);
+                    }
+                });
+            } else {
+                window.location.href = `/Category/AllMovie?userID=${userID}`;
+            }
+        });
+
+        function updateMovieList(movies) {
+            var movieList = $('.movie-listt');
+            movieList.empty();
+
+            $.each(movies, function (index, movie) {
+                movieList.append(`
+                <div>
+                    <div class="movie-list-itemm" values="${movie.movieID}">
+                        <a href="/WatchMovie/Index?UserID=@Model.userID&MovieID=${movie.movieID}">
+                            <img class="movie-list-item-img" src="${movie.image}" alt="${movie.name}">
+                            <p class="movie-list-item-title">${movie.name}</p>
+                        </a>
+                    </div>
+                </div>
+            `);
+            });
+        }
+
+    
+    });
+</script>
+

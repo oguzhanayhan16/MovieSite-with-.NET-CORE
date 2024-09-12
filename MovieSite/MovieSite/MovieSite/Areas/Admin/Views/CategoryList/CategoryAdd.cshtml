@@ -1,0 +1,29 @@
+﻿@model EntityLayer.Concrete.Genre
+@{
+    ViewData["Title"] = "CategoryAdd";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+
+
+<div style="padding:50px;color:black;font-size:20px">
+    @using (Html.BeginForm("CategoryAdd", "CategoryList", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+
+        <div style="margin-bottom: 50px;">
+            <label style="display: inline-block; width: 200px;">Film Adı:</label>
+            <input type="text" name="GenreName" style="width:50%;height:50px; border-radius: 10px; background-color: #C0C0C0; color:black; padding: 5px; border:none;" />
+            @Html.ValidationMessageFor(x => x.GenreName, "", new { @class = "text-danger" })
+        </div>
+       
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-success">Film Ekle</button>
+        </div>
+    }
+
+
+</div>
+

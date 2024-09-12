@@ -1,0 +1,76 @@
+﻿@model MovieSite.Areas.Admin.Models.CommentViewModel
+@{
+    ViewData["Title"] = "GetComment";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    .comment-container {
+        border: 1px solid black;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 8px 0;
+        background-color: #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .comment-content {
+        flex-grow: 1;
+    }
+
+    .comment-header {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .comment-date {
+        color: #555;
+        font-size: 0.9em;
+    }
+
+    .comment-title {
+        margin-top: 8px;
+        font-size: 1.1em;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        color: #fff;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #c82333;
+        }
+</style>
+
+@foreach (var mov in Model.movies)
+{
+    @foreach (var com in Model.comments)
+    {
+        if (com.MovieID == mov.MovieID)
+        {
+            <div class="comment-container">
+                <div class="comment-content">
+                    <div class="comment-header">@mov.Name</div>
+                    <div class="comment-date">@com.CommentDate</div>
+                    <div class="comment-title">@com.CommentContent</div>
+                </div>
+
+                @using (Html.BeginForm("DelCommentUser", "AdminComment", FormMethod.Post))
+                {
+                    @Html.Hidden("CommentID", com.CommentID)
+                    <button class="btn btn-danger" style="padding:10px">sil</button>
+                }
+
+            </div>
+        }
+    }
+}
+
+
