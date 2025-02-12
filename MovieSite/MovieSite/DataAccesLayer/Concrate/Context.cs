@@ -13,7 +13,7 @@ namespace DataAccessLayer.Concrate
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=DESKTOP-T3S2886\\SQLEXPRESS;database=MovieSite; integrated security=true;TrustServercertificate=true");
+            optionsBuilder.UseSqlServer("server={{your database}};database=MovieSite; integrated security=true;TrustServercertificate=true");
         }
         public DbSet<Collection> Collections { get; set; }
         public DbSet<Comment> Comments { get; set; }
